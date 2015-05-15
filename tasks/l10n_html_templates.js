@@ -19,6 +19,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('l10n_html_templates', 'iterates over html template files creating localised files', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
+      dir: 'l10n',
       punctuation: '.',
       separator: ', '
     });
@@ -55,7 +56,8 @@ module.exports = function(grunt) {
                 json = {};
             }
             var out = l10n(html, json, {stripDataAttributes: true});
-            var out_filename = path + filename +  '.' + locale;
+            var out_filename = path + options.dir + '/' + filename +  '.' + locale;
+            grunt.file.mkdir(path + options.dir);
             fs.writeFileSync(out_filename, out, {encoding:'utf8'});
             console.log(out_filename + ' written');
         });
